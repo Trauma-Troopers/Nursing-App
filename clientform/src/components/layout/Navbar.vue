@@ -5,7 +5,7 @@
         <a href class="brand-logo left">IUS Nursing Form</a>
         <ul class="right">
           <li>
-            <a href>Signup</a>
+            <a href>Sign up</a>
           </li>
           <li>
             <a href>Login</a>
@@ -18,10 +18,8 @@
 
 <script>
 export default {
-    name: 'Navbar',
-    data(){
-        data: {}
-    }
+    name: 'Navbar'
+    
 }
 </script>
 
