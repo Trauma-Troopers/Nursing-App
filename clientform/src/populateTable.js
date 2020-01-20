@@ -1,7 +1,7 @@
 
 import firebase from "@/firebase/init"
 export default {
-    name: 'Table',
+    name: 'Tabs',
    components: {
        firebase
     } 
@@ -10,9 +10,9 @@ export default {
 var tabsHTML=""
 firebase.collection("checklist").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-        tabsHTML+=("<td>"+doc.id+"</td>")
-document.getElementById("tabs").innerHTML = tabsHTML
-    },
+        tabsHTML+=("<td class='tab'>"+doc.id+"</td>")
+document.getElementById("tabsRow").innerHTML = tabsHTML
+    }
     );
 });
 

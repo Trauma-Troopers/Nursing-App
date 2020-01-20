@@ -1,9 +1,7 @@
 <template>
       <div>
     <table class = "table">
-        <!-- tabs -->
-        <tr id="tabs">
-        </tr><!-- tabs -->
+        <tr id="tabsRow"></tr><!-- tabs -->
     </table>
   </div>
 </template>
