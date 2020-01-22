@@ -6,5 +6,5 @@
   </div>
 </template>
 
-<script src = "@/populateTable.js">
+<script src = "@/populateTabs.js">
 </script>
