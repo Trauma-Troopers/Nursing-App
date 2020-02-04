@@ -17,8 +17,9 @@ export default {
                     this.tabs.push(doc)
                 });
             }); 
+            this.filterChecks("General")
         },
-        test: function(id){
+        filterChecks: function(id){
             console.log(id)
         }
     },
