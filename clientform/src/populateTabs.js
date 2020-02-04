@@ -17,6 +17,9 @@ export default {
                     this.tabs.push(doc)
                 });
             }); 
+        },
+        test: function(id){
+            console.log(id)
         }
     },
     beforeMount(){
