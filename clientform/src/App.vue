@@ -1,22 +1,27 @@
+/* eslint-disable */ 
 <template>
   <div id="app">
-    <router-view/>
+    <Navbar />
+    <TabsList />
+    <router-view />
   </div>
 </template>
 
 <script>
+// import the Navbar Component into the main Vue
+import Navbar from "@/components/layout/Navbar";
+//import the Tabs Component into the main vue
+import TabsList from "@/components/layout/TabsList";
+
+
 export default {
-  name: 'App'
-}
+  name: "App",
+  components: {
+    Navbar,
+    TabsList
+  }
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
