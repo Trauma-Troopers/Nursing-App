@@ -20,7 +20,11 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function(id){
-            console.log(id)
+            firebase.collection("checklist").doc(id).collection("checkitems").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.get("name"))
+                })
+            })
         }
     },
     beforeMount(){
