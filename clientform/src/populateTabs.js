@@ -7,12 +7,15 @@ export default {
     },
     data: function() {
        return{
-           tabs: []
+           tabs: [],
+           checks: [],
+           tabnum: 0
        } 
     },
     methods: {
         loadPage: function(){
             firebase.collection("checklist").get().then((querySnapshot) => {
+                this.tabnum = (querySnapshot.size)/5
                 querySnapshot.forEach((doc) => {
                     this.tabs.push(doc)
                 });
@@ -20,9 +23,10 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function(id){
+            this.checks = []
             firebase.collection("checklist").doc(id).collection("checkitems").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.get("name"))
+                    this.checks.push(doc)
                 })
             })
         }
