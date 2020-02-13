@@ -9,7 +9,11 @@ export default {
        return{
            tabs: [],
            checks: [],
-           tabnum: 0
+           tabnum: 0,
+           checked1: [],
+           checked2: [],
+           checked3: [],
+           checked4: []
        } 
     },
     methods: {
@@ -24,9 +28,14 @@ export default {
         },
         filterChecks: function(id){
             this.checks = []
-            firebase.collection("checklist").doc(id).collection("checkitems").get().then((querySnapshot) => {
+            var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
+            checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.checks.push(doc)
+                    this.checked1.push(doc.get("level1"))
+                    this.checked2.push(doc.get("level2"))
+                    this.checked3.push(doc.get("level3"))
+                    this.checked4.push(doc.get("level4"))
                 })
             })
         }

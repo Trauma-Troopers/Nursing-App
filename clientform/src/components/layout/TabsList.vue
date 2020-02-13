@@ -5,10 +5,10 @@
         <tr><td colspan=3>Name: </td><td colspan=3>Level 1</td><td colspan=3>Level 2</td><td colspan=3>Level 3</td><td colspan=3>Level 4</td></tr>
         <tr v-for="check in checks">
           <td colspan=3>{{check.get("name")}}</td>
-            <td colspan=3><input type="checkbox"></td>
-            <td colspan=3>level 2</td>
-            <td colspan=3>level 3</td>
-            <td colspan=3>level 4</td>
+            <td colspan=3><input type="checkbox" v-model="checked1"></td>
+            <td colspan=3><input type="checkbox" v-model="checked2"></td>
+            <td colspan=3><input type="checkbox" v-model="checked3"></td>
+            <td colspan=3><input type="checkbox" v-model="checked4"></td>
             </tr><!-- checks row -->
     </table>
   </div>
