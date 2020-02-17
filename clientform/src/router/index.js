@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// Imports Signup
 import Signup from '@/components/auth/Signup'
-//  imports login 
 import Login from '@/components/auth/Login'
+import CheckList from '@/components/layout/CheckList'
 
 Vue.use(Router)
 
@@ -19,6 +18,10 @@ const router = new Router({
       path: '/',
       name: 'Login',
       component: Login
+    }, {
+      path: '/checklist',
+      name: 'CheckList',
+      component: CheckList
     }
   ]
 })
