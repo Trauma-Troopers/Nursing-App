@@ -7,12 +7,19 @@ export default {
     },
     data: function() {
        return{
-           tabs: []
+           tabs: [],
+           checks: [],
+           tabnum: 0,
+           checked1: [],
+           checked2: [],
+           checked3: [],
+           checked4: []
        } 
     },
     methods: {
         loadPage: function(){
             firebase.collection("checklist").get().then((querySnapshot) => {
+                this.tabnum = (querySnapshot.size)/5
                 querySnapshot.forEach((doc) => {
                     this.tabs.push(doc)
                 });
@@ -20,7 +27,17 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function(id){
-            console.log(id)
+            this.checks = []
+            var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
+            checkitems.get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.checks.push(doc)
+                    this.checked1.push(doc.get("level1"))
+                    this.checked2.push(doc.get("level2"))
+                    this.checked3.push(doc.get("level3"))
+                    this.checked4.push(doc.get("level4"))
+                })
+            })
         }
     },
     beforeMount(){

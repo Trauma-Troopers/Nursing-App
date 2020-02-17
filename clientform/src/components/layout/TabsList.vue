@@ -2,16 +2,24 @@
       <div>
     <table class = "table">
         <tr><td v-for="item in tabs" @click=filterChecks(item.id)>{{item.id}}</td></tr><!-- tabs -->
-        <tr id="checksRow">test item
-            <td>level 1</td>
-            <td>level 2</td>
-            <td>level 3</td>
-            <td>level 4</td>
+        <tr><td colspan=3>Name: </td><td colspan=3>Level 1</td><td colspan=3>Level 2</td><td colspan=3>Level 3</td><td colspan=3>Level 4</td></tr>
+        <tr v-for="check in checks">
+          <td colspan=3>{{check.get("name")}}</td>
+            <td colspan=3><input type="checkbox" v-model="checked1"></td>
+            <td colspan=3><input type="checkbox" v-model="checked2"></td>
+            <td colspan=3><input type="checkbox" v-model="checked3"></td>
+            <td colspan=3><input type="checkbox" v-model="checked4"></td>
             </tr><!-- checks row -->
     </table>
   </div>
 </template>
 
 <script src = "@/populateTabs.js">
-
 </script>
+
+<style>
+input[type=checkbox]
+{
+  -webkit-appearance:checkbox;
+}
+</style>
