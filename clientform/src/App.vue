@@ -8,9 +8,9 @@
 </template>
 
 <script>
-// import the Navbar Component into the main Vue
+
+// Components:
 import Navbar from "@/components/layout/Navbar";
-//import the Tabs Component into the main vue
 import TabsList from "@/components/layout/TabsList";
 
 
