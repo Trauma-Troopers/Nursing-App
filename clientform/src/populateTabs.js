@@ -2,31 +2,31 @@
 import firebase from "@/firebase/init"
 export default {
     name: 'Tabs',
-   components: {
-       firebase,
+    components: {
+        firebase,
     },
-    data: function() {
-       return{
-           tabs: [],
-           checks: [],
-           tabnum: 0,
-           checked1: [],
-           checked2: [],
-           checked3: [],
-           checked4: []
-       } 
+    data: function () {
+        return {
+            tabs: [],
+            checks: [],
+            tabnum: 0,
+            checked1: [],
+            checked2: [],
+            checked3: [],
+            checked4: []
+        }
     },
     methods: {
-        loadPage: function(){
+        loadPage: function () {
             firebase.collection("checklist").get().then((querySnapshot) => {
-                this.tabnum = (querySnapshot.size)/5
+                this.tabnum = (querySnapshot.size) / 5
                 querySnapshot.forEach((doc) => {
                     this.tabs.push(doc)
                 });
-            }); 
+            });
             this.filterChecks("General")
         },
-        filterChecks: function(id){
+        filterChecks: function (id) {
             this.checks = []
             var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
@@ -40,12 +40,12 @@ export default {
             })
         }
     },
-    beforeMount(){
+    beforeMount() {
         this.loadPage()
     }
 }
 
-    
+
 
 /*var tabsHTML=""
 var currentTab = "General"
