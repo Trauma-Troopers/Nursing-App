@@ -12,8 +12,8 @@
         <input type="password" name="password" v-model="password" />
       </div>
       <div class="field">
-        <label for="alias">Alias:</label>
-        <input type="text" name="alias" v-model="alias" />
+        <label for="username">username:</label>
+        <input type="text" name="username" v-model="username" />
       </div>
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
@@ -37,7 +37,7 @@ export default {
     return {
       email: null,
       password: null,
-      alias: null,
+      username: null,
       feedback: null,
       slug: null
     };
@@ -45,9 +45,9 @@ export default {
   methods: {
     signup() {
       // checks for user auth
-      if (this.alias && this.email && this.password) {
+      if (this.username && this.email && this.password) {
         // slugify always takes two params
-        this.slug = slugify(this.alias, {
+        this.slug = slugify(this.username, {
           replacement: "-",
           //   regex globals
           remove: /[$*_+~.()'"!\-:@]/g,
@@ -59,20 +59,28 @@ export default {
         // Check to determine if the reference exists
         ref.get().then(doc => {
           if (doc.exists) {
-            this.feedback = "This alias already exists";
+            this.feedback = "That username already exists";
           } else {
-            this.feedback = "This alias is free to use";
             firebase
               .auth()
               .createUserWithEmailAndPassword(this.email, this.password)
-              .catch(function(error) {
-                // Handle Errors here.
+              .then(cred => {
+                // console.log(cred.user);
+                db.collection("users")
+                  .doc(this.slug)
+                  .set({
+                    username: this.username,
+                    user_id: cred.user.uid
+                  });
+              }).then(cred => {this.$router.push({name: 'CheckList'});})
+              .catch(error => {// Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
+                this.feedback = errorMessage;
               });
+            this.feedback = `User ${this.username} created`;
           }
-        });
-        console.log(this.slug);
+        })
       } else {
         this.feedback = "You must enter all fields";
       }
