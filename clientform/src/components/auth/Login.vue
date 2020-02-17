@@ -20,9 +20,9 @@
 
 <script>
 export default {
+  name: "Login",
   data() {
     return {
-      name: Login,
       email: null,
       password: null
     };
