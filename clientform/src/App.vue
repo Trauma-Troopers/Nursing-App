@@ -2,7 +2,8 @@
 <template>
   <div id="app">
     <Navbar />
-    <TabsList />
+    <!-- Only want to Render when Authentication has been made Sucessfully -->
+    <!-- <CheckList /> -->
     <router-view />
   </div>
 </template>
@@ -11,14 +12,14 @@
 
 // Components:
 import Navbar from "@/components/layout/Navbar";
-import TabsList from "@/components/layout/TabsList";
+import CheckList from "@/components/layout/CheckList";
 
 
 export default {
   name: "App",
   components: {
     Navbar,
-    TabsList
+    CheckList
   }
 };
 </script>
