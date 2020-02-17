@@ -18,7 +18,7 @@
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
       <div class="field center">
-        <button class="btn deep-purple">Sign up</button>
+        <button class="btn deep-purple">Signup</button>
       </div>
     </form>
   </div>
