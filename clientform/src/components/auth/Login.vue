@@ -12,7 +12,7 @@
         <input type="password" v-mode="password" />
       </div>
       <div class="field center">
-        <button class="btn deep-purple">Login</button>
+        <button class="btn pink darken-4">Login</button>
       </div>
     </form>
   </div>

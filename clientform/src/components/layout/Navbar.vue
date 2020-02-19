@@ -1,8 +1,8 @@
 <template>
       <div class="navbar">
-    <nav class="deep-purple darken-1">
+    <nav class="pink darken-4">
       <div class="container">
-        <router-link to="/checklist">
+        <router-link to="/">
           <a href class="brand-logo left">IUS Nursing Form</a>
         </router-link>
         <ul class="right">
@@ -10,7 +10,7 @@
             <router-link to="/signup">Sign up</router-link>
           </li>
           <li>
-            <router-link to="/login">Login</router-link>
+            <router-link to="/">Login</router-link>
           </li>
         </ul>
       </div>

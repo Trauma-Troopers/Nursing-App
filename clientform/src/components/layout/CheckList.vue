@@ -2,7 +2,7 @@
   <div>
     <table class="table">
       <tr>
-        <td v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
+        <td class="pink darken-3 white-text" v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
       </tr>
       <!-- tabs -->
       <tr>
