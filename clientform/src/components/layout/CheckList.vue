@@ -2,7 +2,7 @@
   <div>
     <table class="table">
       <tr>
-        <td class="pink darken-3 white-text" v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
+        <td class="pink darken-3 white-text items" v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
       </tr>
       <!-- tabs -->
       <tr>
@@ -84,4 +84,7 @@ export default {
 </script>
 
 <style>
+.items {
+  cursor: pointer;
+}
 </style>
