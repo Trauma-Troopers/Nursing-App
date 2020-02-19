@@ -25,7 +25,6 @@ const router = new Router({
     }
   ]
 })
-
 // Creates Routeguard
 // fires a function before each route is loaded into the DOM
 
