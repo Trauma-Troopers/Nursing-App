@@ -1,14 +1,16 @@
 <template>
       <div class="navbar">
-    <nav class="deep-purple darken-1">
+    <nav class="pink darken-4">
       <div class="container">
-        <a href class="brand-logo left">IUS Nursing Form</a>
+        <router-link to="/">
+          <a href class="brand-logo left">IUS Nursing Form</a>
+        </router-link>
         <ul class="right">
           <li>
-            <a href>Sign up</a>
+            <router-link to="/signup">Sign up</router-link>
           </li>
           <li>
-            <a href>Login</a>
+            <router-link to="/">Login</router-link>
           </li>
         </ul>
       </div>
