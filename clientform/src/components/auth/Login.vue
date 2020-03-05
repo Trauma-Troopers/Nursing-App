@@ -12,7 +12,7 @@
         <input type="password" v-mode="password" />
       </div>
       <div class="field center">
-        <button class="btn pink darken-4">Login</button>
+        <button class="btn deep-purple darken-4">Login</button>
       </div>
     </form>
   </div>
@@ -24,11 +24,15 @@ export default {
   data() {
     return {
       email: null,
-      password: null
+      password: null,
+      userdoc: null
     };
   },
   methods: {
-    login() {}
+    login() {},
+    getUser(){
+      return this.userdoc;
+    }
   }
 };
 </script>
