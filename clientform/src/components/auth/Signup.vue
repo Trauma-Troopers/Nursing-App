@@ -39,7 +39,8 @@ export default {
       password: null,
       username: null,
       feedback: null,
-      slug: null
+      slug: null,
+      userdoc: "checksout"
     };
   },
   methods: {
@@ -79,12 +80,16 @@ export default {
                 this.feedback = errorMessage;
               });
             this.feedback = `User ${this.username} created`;
+            //this.userdoc = db.collection("users").doc(this.slug);
           }
         })
       } else {
         this.feedback = "You must enter all fields";
       }
     }
+  },
+  getUser(){
+    return this.userdoc;
   }
 };
 </script>
