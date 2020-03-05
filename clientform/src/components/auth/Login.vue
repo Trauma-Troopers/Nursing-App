@@ -29,10 +29,7 @@ export default {
     };
   },
   methods: {
-    login() {},
-    getUser(){
-      return this.userdoc;
-    }
+    login() {}
   }
 };
 </script>

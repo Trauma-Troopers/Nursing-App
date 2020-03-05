@@ -42,10 +42,9 @@ export default {
   name: 'CheckList',
     data(){
         return {
-            user: user1.getUser() || user2.getUser() || "fail to get user",
+            user: user1.data() || user2.data().userdoc || "fail to get user",
             tabs: [],
             checks: [],
-            tabnum: 0,
             checked1: [],
             checked2: [],
             checked3: [],
@@ -54,9 +53,8 @@ export default {
        },
     methods: {
         loadPage: function () {
-          console.log(this.user);
+         // console.log(this.user);
             firebase.collection("checklist").get().then((querySnapshot) => {
-                this.tabnum = (querySnapshot.size) / 5
                 querySnapshot.forEach((doc) => {
                     this.tabs.push(doc)
                 });
