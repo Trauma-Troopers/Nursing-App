@@ -81,7 +81,7 @@ export default {
               });
             this.feedback = `User ${this.username} created`;
         //iterateChecklist(db.collection("users").doc(this.slug));
-        testSubCol(db.collection("users").doc(this.slug));
+        iterateChecklist(db.collection("users").doc(this.slug));
           }
         })
       } else {
@@ -91,25 +91,21 @@ export default {
   }
 }
 
-function testSubCol(user){
-user.collection("testCOLLECTION").add({testdoc: "test"});
-}
-
 function iterateChecklist(user){
        db.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((docTab) => {
-                    user.collection("checklist").add({
-                      [docTab.id]: docTab
-                    })
-                    var checkitems = docTab.collection("checkitems")
-            checkitems.get().then((querySnapshot) => {
-                querySnapshot.forEach((docItem) => {
-                    user.collection("checklist").doc(docTab.id).collection("checkitems").add({
-                      [docItem.id]: docItem
-                    })
-                })
+                querySnapshot.forEach((docTab) => { //docTab is a document snapshot NOT a document reference
+                    user.collection("checklist").doc(docTab.id).set({name: docTab.id}) //sets a blank document with the tabs id
+                    docTab.ref.collection("checkitems").get().then((querySnapshot) => {
+                      querySnapshot.forEach((docItem) => {
+                        user.collection("checklist").doc(docTab.id).collection("checkitems").doc().set({
+                          name: docItem.get("name"),
+                          level1: docItem.get("level1"),
+                          level2: docItem.get("level2"),
+                          level3: docItem.get("level3"),
+                          level4: docItem.get("level4")})
+                })//inner for each
                })
-                });
+                });//outer for each
             });
     }
 
