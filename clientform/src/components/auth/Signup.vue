@@ -95,6 +95,7 @@ function iterateChecklist(user){
        db.collection("checklist").get().then((querySnapshot) => {
                 querySnapshot.forEach((docTab) => { //docTab is a document snapshot NOT a document reference
                     user.collection("checklist").doc(docTab.id).set({name: docTab.id}) //sets a blank document with the tabs id
+                    //probably have to wait for it to finish
                     docTab.ref.collection("checkitems").get().then((querySnapshot) => {
                       querySnapshot.forEach((docItem) => {
                         user.collection("checklist").doc(docTab.id).collection("checkitems").doc().set({
