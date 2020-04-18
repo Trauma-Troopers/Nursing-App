@@ -81,7 +81,7 @@ export default {
               });
             this.feedback = `User ${this.username} created`;
         //iterateChecklist(db.collection("users").doc(this.slug));
-        iterateChecklist(db.collection("users").doc(this.slug));
+        iterateTabs(db.collection("users").doc(this.slug));
           }
         })
       } else {
@@ -91,12 +91,19 @@ export default {
   }
 }
 
-function iterateChecklist(user){
+function iterateTabs(user){
        db.collection("checklist").get().then((querySnapshot) => {
                 querySnapshot.forEach((docTab) => { //docTab is a document snapshot NOT a document reference
                     user.collection("checklist").doc(docTab.id).set({name: docTab.id}) //sets a blank document with the tabs id
                     //probably have to wait for it to finish
-                    docTab.ref.collection("checkitems").get().then((querySnapshot) => {
+                   window.setTimeout(iterateCheckItems(docTab, user),1000);
+                });//outer for each
+            });
+    }
+
+    function iterateCheckItems(docTab, user){
+      console.log("iterate items hit")
+       docTab.ref.collection("checkitems").get().then((querySnapshot) => {
                       querySnapshot.forEach((docItem) => {
                         user.collection("checklist").doc(docTab.id).collection("checkitems").doc().set({
                           name: docItem.get("name"),
@@ -106,8 +113,6 @@ function iterateChecklist(user){
                           level4: docItem.get("level4")})
                 })//inner for each
                })
-                });//outer for each
-            });
     }
 
 </script>
