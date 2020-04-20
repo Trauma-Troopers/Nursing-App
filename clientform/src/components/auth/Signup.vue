@@ -80,8 +80,7 @@ export default {
                 this.feedback = errorMessage;
               });
             this.feedback = `User ${this.username} created`;
-        //iterateChecklist(db.collection("users").doc(this.slug));
-        iterateTabs(db.collection("users").doc(this.slug));
+        iterateChecklistTabs(db.collection("users").doc(this.slug));
           }
         })
       } else {
@@ -91,29 +90,37 @@ export default {
   }
 }
 
-function iterateTabs(user){
+function iterateChecklistTabs(user){
        db.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((docTab) => { //docTab is a document snapshot NOT a document reference
-                    user.collection("checklist").doc(docTab.id).set({name: docTab.id}) //sets a blank document with the tabs id
-                    //probably have to wait for it to finish
-                   window.setTimeout(iterateCheckItems(docTab, user),1000);
-                });//outer for each
+                querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
+                createUserTabs(user,checkTab)
             });
+    })
+}
+
+function createUserTabs(user, checkTab){
+var tabProm = user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+window.setTimeout(iterateCheckItems(user, checkTab),1000);
+}
+
+    function iterateCheckItems(user, checkTab){
+                checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
+                                      querySnapshot.forEach((checkItem) => {
+                                       createUserItems(user, checkItem, checkTab)
+                                })//inner for each
+                              })
     }
 
-    function iterateCheckItems(docTab, user){
-      console.log("iterate items hit")
-       docTab.ref.collection("checkitems").get().then((querySnapshot) => {
-                      querySnapshot.forEach((docItem) => {
-                        user.collection("checklist").doc(docTab.id).collection("checkitems").doc().set({
-                          name: docItem.get("name"),
-                          level1: docItem.get("level1"),
-                          level2: docItem.get("level2"),
-                          level3: docItem.get("level3"),
-                          level4: docItem.get("level4")})
-                })//inner for each
-               })
+    function createUserItems(user, checkItem, checkTab){
+        user.collection("checklist").doc(checkTab.id).collection("checkitems").add({
+                                          name: checkItem.get("name"),
+                                          level1: checkItem.get("level1"),
+                                          level2: checkItem.get("level2"),
+                                          level3: checkItem.get("level3"),
+                                          level4: checkItem.get("level4")})
     }
+
+
 
 </script>
 
