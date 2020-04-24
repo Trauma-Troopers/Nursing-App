@@ -1,8 +1,8 @@
 <template>
   <div>
     <table class="table">
-      <tr>
-        <td class="pink darken-3 white-text items" v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
+      <tr style="background-color: #EEEDEB">
+        <td v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
       </tr>
       <!-- tabs -->
       <tr>
@@ -36,26 +36,25 @@
 
 <script>
 import firebase from "@/firebase/init";
+import user1 from "../auth/Signup"
+import user2 from "../auth/Login"
 export default {
   name: 'CheckList',
-    components: {
-        firebase,
-    },
-    data: function () {
+    data(){
         return {
+            user: user1.data() || user2.data().userdoc || "fail to get user",
             tabs: [],
             checks: [],
-            tabnum: 0,
             checked1: [],
             checked2: [],
             checked3: [],
             checked4: []
-        }
-    },
+      }
+       },
     methods: {
         loadPage: function () {
+         // console.log(this.user);
             firebase.collection("checklist").get().then((querySnapshot) => {
-                this.tabnum = (querySnapshot.size) / 5
                 querySnapshot.forEach((doc) => {
                     this.tabs.push(doc)
                 });
@@ -63,7 +62,6 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function (id) {
-            this.checks = []
             var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {

@@ -39,7 +39,8 @@ export default {
       password: null,
       username: null,
       feedback: null,
-      slug: null
+      slug: null,
+      userdoc: null
     };
   },
   methods: {
@@ -79,6 +80,7 @@ export default {
                 this.feedback = errorMessage;
               });
             this.feedback = `User ${this.username} created`;
+        iterateChecklistTabs(db.collection("users").doc(this.slug));
           }
         })
       } else {
@@ -86,7 +88,40 @@ export default {
       }
     }
   }
-};
+}
+
+function iterateChecklistTabs(user){
+       db.collection("checklist").get().then((querySnapshot) => {
+                querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
+                createUserTabs(user,checkTab)
+            });
+    })
+}
+
+function createUserTabs(user, checkTab){
+var tabProm = user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+window.setTimeout(iterateCheckItems(user, checkTab),1000);
+}
+
+    function iterateCheckItems(user, checkTab){
+                checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
+                                      querySnapshot.forEach((checkItem) => {
+                                       createUserItems(user, checkItem, checkTab)
+                                })//inner for each
+                              })
+    }
+
+    function createUserItems(user, checkItem, checkTab){
+        user.collection("checklist").doc(checkTab.id).collection("checkitems").add({
+                                          name: checkItem.get("name"),
+                                          level1: checkItem.get("level1"),
+                                          level2: checkItem.get("level2"),
+                                          level3: checkItem.get("level3"),
+                                          level4: checkItem.get("level4")})
+    }
+
+
+
 </script>
 
 <style>

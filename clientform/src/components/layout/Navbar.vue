@@ -1,6 +1,6 @@
 <template>
       <div class="navbar">
-    <nav class="pink darken-4">
+    <nav style="background-color: #990000">
       <div class="container">
         <router-link to="/">
           <a href class="brand-logo left">IUS Nursing Form</a>
