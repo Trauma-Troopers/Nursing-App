@@ -73,13 +73,18 @@ export default {
                     username: this.username,
                     user_id: cred.user.uid
                   });
-              }).then(cred => {this.$router.push({name: 'CheckList'});})
+              }).then(cred => {
+              iterateChecklistTabs(db.collection("users").doc(this.slug))
+                .finally(() => {
+                  this.$router.push({name: 'CheckList'});
+                })
+                })
               .catch(error => {// Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 this.feedback = errorMessage;
               });
-              iterateChecklistTabs(db.collection("users").doc(this.slug));
+              
             this.feedback = `User ${this.username} created`;
         
           }
@@ -92,17 +97,22 @@ export default {
 }
 
 function iterateChecklistTabs(user){
-       db.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
-                createUserTabs(user,checkTab)
-            });
+    return new Promise(function(resolve, reject){
+              db.collection("checklist").get().then((querySnapshot) => {
+                              querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
+                              createUserTabs(user,checkTab)
+                          });
+                  })                          
+                                  .then(() => {
+                                                resolve();
+                                            })
     })
+       
 }
 
 function createUserTabs(user, checkTab){
-      var tabProm =   user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+         user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
          .then(() => {
-           console.log(checkTab.id)
           iterateCheckItems(user, checkTab)
          })
         
@@ -123,11 +133,6 @@ function createUserTabs(user, checkTab){
                                           level2: checkItem.get("level2"),
                                           level3: checkItem.get("level3"),
                                           level4: checkItem.get("level4")})
-                                          .then(userItemRef => {
-                                            console.log(userItemRef.id)
-                                          }).then(docref => {
-                                            
-                                          })
     }
 
 
