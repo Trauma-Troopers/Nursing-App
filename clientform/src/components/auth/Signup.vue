@@ -73,14 +73,20 @@ export default {
                     username: this.username,
                     user_id: cred.user.uid
                   });
-              }).then(cred => {this.$router.push({name: 'CheckList'});})
+              }).then(cred => {
+              iterateChecklistTabs(db.collection("users").doc(this.slug))
+                .finally(() => {
+                  this.$router.push({name: 'CheckList'});
+                })
+                })
               .catch(error => {// Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 this.feedback = errorMessage;
               });
+              
             this.feedback = `User ${this.username} created`;
-        iterateChecklistTabs(db.collection("users").doc(this.slug));
+        
           }
         })
       } else {
@@ -91,23 +97,32 @@ export default {
 }
 
 function iterateChecklistTabs(user){
-       db.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
-                createUserTabs(user,checkTab)
-            });
+    return new Promise(function(resolve, reject){
+              db.collection("checklist").get().then((querySnapshot) => {
+                              querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
+                              createUserTabs(user,checkTab)
+                          });
+                  })                          
+                                  .then(() => {
+                                                resolve();
+                                            })
     })
+       
 }
 
 function createUserTabs(user, checkTab){
-var tabProm = user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
-window.setTimeout(iterateCheckItems(user, checkTab),1000);
+         user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+         .then(() => {
+          iterateCheckItems(user, checkTab)
+         })
+        
 }
 
     function iterateCheckItems(user, checkTab){
                 checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
                                       querySnapshot.forEach((checkItem) => {
                                        createUserItems(user, checkItem, checkTab)
-                                })//inner for each
+                                })
                               })
     }
 
