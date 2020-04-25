@@ -79,8 +79,9 @@ export default {
                 var errorMessage = error.message;
                 this.feedback = errorMessage;
               });
+              iterateChecklistTabs(db.collection("users").doc(this.slug));
             this.feedback = `User ${this.username} created`;
-        iterateChecklistTabs(db.collection("users").doc(this.slug));
+        
           }
         })
       } else {
@@ -99,15 +100,19 @@ function iterateChecklistTabs(user){
 }
 
 function createUserTabs(user, checkTab){
-var tabProm = user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
-window.setTimeout(iterateCheckItems(user, checkTab),1000);
+      var tabProm =   user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+         .then(() => {
+           console.log(checkTab.id)
+          iterateCheckItems(user, checkTab)
+         })
+        
 }
 
     function iterateCheckItems(user, checkTab){
                 checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
                                       querySnapshot.forEach((checkItem) => {
                                        createUserItems(user, checkItem, checkTab)
-                                })//inner for each
+                                })
                               })
     }
 
@@ -118,6 +123,11 @@ window.setTimeout(iterateCheckItems(user, checkTab),1000);
                                           level2: checkItem.get("level2"),
                                           level3: checkItem.get("level3"),
                                           level4: checkItem.get("level4")})
+                                          .then(userItemRef => {
+                                            console.log(userItemRef.id)
+                                          }).then(docref => {
+                                            
+                                          })
     }
 
 
