@@ -1,16 +1,17 @@
 <template>
-      <div class="navbar">
-    <nav style="background-color: #990000">
+  <div class="navbar">
+    <nav style="background-color:#990000">
       <div class="container">
-        <router-link to="/">
-          <a href class="brand-logo left">IUS Nursing Form</a>
-        </router-link>
+          <a class="brand-logo left">IUS Nursing Form</a>
         <ul class="right">
           <li>
-            <router-link to="/signup">Sign up</router-link>
+            <router-link to="/signup">Sign Up</router-link>
           </li>
           <li>
             <router-link to="/">Login</router-link>
+          </li>
+          <li>
+            <router-link to="/readme">How to Use</router-link>
           </li>
         </ul>
       </div>

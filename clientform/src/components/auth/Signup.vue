@@ -1,7 +1,7 @@
 <template>
   <div class="signup container">
     <form @submit.prevent="signup" class="card-panel">
-      <h2 class="center deep-purple-text">Signup</h2>
+      <h2 class="center deep-black-text">Signup</h2>
 
       <div class="field">
         <label for="email">Email:</label>
@@ -12,13 +12,13 @@
         <input type="password" name="password" v-model="password" />
       </div>
       <div class="field">
-        <label for="username">username:</label>
+        <label for="username">Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
       <div class="field center">
-        <button class="btn deep-purple">Signup</button>
+        <button class="btn" style = "background-color:#990000">Signup</button>
       </div>
     </form>
   </div>
@@ -74,12 +74,13 @@ export default {
                     email: this.email,
                     user_id: cred.user.uid
                   });
-              }).then(cred => {
+              })
+              .then(cred => {
               iterateChecklistTabs(db.collection("users").doc(this.slug))
                 .finally(() => {
                   this.$router.push({name: 'CheckList'});
                 })
-                })
+              })
               .catch(error => {// Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -135,9 +136,7 @@ function createUserTabs(user, checkTab){
                                           level3: checkItem.get("level3"),
                                           level4: checkItem.get("level4")})
     }
-
-
-
+    
 </script>
 
 <style>

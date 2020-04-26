@@ -1,32 +1,81 @@
 <template>
   <div>
+    <hr>
+    <p style="font-size:30px; background-color:#D4D4D4"><center>IU Southeast School of Nursing Skills Checklist</center></p>
+    <hr>
     <table class="table">
-      <tr style="background-color: #EEEDEB">
-        <td v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
-      </tr>
-      <!-- tabs -->
-      <tr>
-        <td colspan="3">Name:</td>
-        <td colspan="3">Level 1</td>
-        <td colspan="3">Level 2</td>
-        <td colspan="3">Level 3</td>
-        <td colspan="3">Level 4</td>
-      </tr>
-      <tr v-for="check in checks">
-        <td colspan="3">{{check.get("name")}}</td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked1" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked2" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked3" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked4" />
-        </td>
-      </tr>
+        <tr>
+          <td class="white-text items" style="background-color:#990000" v-for="item in tabs" @click="filterChecks(item.id)">
+            <div class ="verticalLine">
+             <th>{{item.id}}</th>
+            </div>
+          </td>
+        </tr>
+        <!-- tabs -->
+        <tr class="levelsRow">
+          <td colspan="3">
+            Identified Skill:
+            </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 1:<br>
+                Performed Independently
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 2:<br>
+                Performed with Assistance
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 3:<br>
+                Performed in Simulation
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 4:<br>
+                NEVER Performed in Clinical or Sim
+              </center>
+            </p>
+          </td>
+        </tr>
+        <tr v-for="check in checks">
+          <td colspan="3">{{check.get("name")}}</td>
+          <td colspan="3">
+            <label><center>
+              <input type="checkbox" v-model="checked1" class="chkbox" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3">
+            <label><center>
+              <input type="checkbox" v-model="checked2" class="chkbox" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3">
+            <label><center>
+              <input type="checkbox" v-model="checked3" class="chkbox" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3">
+            <label><center>
+              <input type="checkbox" v-model="checked4" class="chkbox" />
+              <span></span>
+            </center></label>
+          </td>
+        </tr>
       <!-- checks row -->
     </table>
   </div>
@@ -49,8 +98,8 @@ export default {
             checked2: [],
             checked3: [],
             checked4: []
-      }
-       },
+        }
+    },
     methods: {
         loadPage: function () {
          // console.log(this.user);
@@ -62,6 +111,7 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function (id) {
+            this.checks = []
             var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -82,7 +132,42 @@ export default {
 </script>
 
 <style>
-.items {
-  cursor: pointer;
-}
+
+  hr{
+    padding-top: 5px;
+    margin: 0px;
+    background-color:#DEDEDE;
+  }
+
+  p{
+    padding: 0px;
+    margin: 0px;    
+  }
+
+  .items {
+    cursor: pointer;
+  }
+  
+  .chkbox {
+    align-content: center;
+  }
+
+  .levelsRow{
+    background-color:#D4D4D4;
+  }
+
+  .levelsVerticalLine {
+    border-left: solid rgba(70, 66, 66, 0.747);
+    padding-top: 0px;
+  }
+
+  .verticalLine {
+    border-left: solid rgba(114, 7, 3, 0.788);
+    height: 100px;
+  }
+
+  ul.categoryBullet {
+    border-left: solid black;
+    list-style-type: circle;
+  }
 </style>
