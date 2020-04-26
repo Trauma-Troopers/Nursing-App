@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Signup from '@/components/auth/Signup'
 import Login from '@/components/auth/Login'
 import CheckList from '@/components/layout/CheckList'
+import Admin from '@/components/layout/Admin'
 import ReadMe from '@/components/layout/ReadMe'
 
 Vue.use(Router)
@@ -23,6 +24,10 @@ const router = new Router({
       path: '/checklist',
       name: 'CheckList',
       component: CheckList
+    }, {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin
     }, {
       path: '/readme',
       name: 'ReadMe',
