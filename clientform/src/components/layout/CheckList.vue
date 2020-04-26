@@ -111,6 +111,7 @@ export default {
             this.filterChecks("General")
         },
         filterChecks: function (id) {
+            this.checks = []
             var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
