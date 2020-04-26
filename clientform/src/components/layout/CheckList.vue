@@ -84,14 +84,12 @@
 
 
 <script>
-import firebase from "@/firebase/init";
-import user1 from "../auth/Signup"
-import user2 from "../auth/Login"
+import db from "@/firebase/init";
+import firebase from "firebase"
 export default {
   name: 'CheckList',
     data(){
         return {
-            user: user1.data() || user2.data().userdoc || "fail to get user",
             tabs: [],
             checks: [],
             checked1: [],
@@ -102,17 +100,24 @@ export default {
     },
     methods: {
         loadPage: function () {
-         // console.log(this.user);
-            firebase.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.tabs.push(doc)
-                });
-            });
-            this.filterChecks("General")
+          var authMail = firebase.auth().currentUser.email
+          var user = db.collection("users").where("email", "==", authMail).get()
+          .then((userSnap) => {
+            var userDoc = userSnap.docs[0].ref
+
+            userDoc.collection("checklist").get().then((querySnapshot) => {
+                            querySnapshot.forEach((doc) => {
+                                this.tabs.push(doc)
+                            });
+                        });
+                        this.filterChecks("General")
+          })
+          
+            
         },
         filterChecks: function (id) {
             this.checks = []
-            var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
+            var checkitems = db.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.checks.push(doc)
