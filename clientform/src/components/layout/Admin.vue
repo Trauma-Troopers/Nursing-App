@@ -1,0 +1,85 @@
+<template>
+  <div>
+    <table class="table">
+      <tr style="background-color: #EEEDEB">
+        <td v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
+      </tr>
+      <!-- tabs -->
+      <tr>
+        <td colspan="3">ADMIN</td>
+        <td colspan="3">Level 1</td>
+        <td colspan="3">Level 2</td>
+        <td colspan="3">Level 3</td>
+        <td colspan="3">Level 4</td>
+      </tr>
+      <tr v-for="check in checks">
+        <td colspan="3">{{check.get("name")}}</td>
+        <td colspan="3">
+          <input type="checkbox" v-model="checked1" />
+        </td>
+        <td colspan="3">
+          <input type="checkbox" v-model="checked2" />
+        </td>
+        <td colspan="3">
+          <input type="checkbox" v-model="checked3" />
+        </td>
+        <td colspan="3">
+          <input type="checkbox" v-model="checked4" />
+        </td>
+      </tr>
+      <!-- checks row -->
+    </table>
+  </div>
+</template>
+
+
+
+<script>
+import firebase from "@/firebase/init";
+export default {
+  name: 'CheckList',
+    data(){
+        return {
+            tabs: [],
+            checks: [],
+            checked1: [],
+            checked2: [],
+            checked3: [],
+            checked4: []
+      }
+       },
+    methods: {
+        loadPage: function () {
+         // console.log(this.user);
+            firebase.collection("checklist").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.tabs.push(doc)
+                });
+            });
+            this.filterChecks("General")
+        },
+        filterChecks: function (id) {
+            var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
+            checkitems.get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.checks.push(doc)
+                    this.checked1.push(doc.get("level1"))
+                    this.checked2.push(doc.get("level2"))
+                    this.checked3.push(doc.get("level3"))
+                    this.checked4.push(doc.get("level4"))
+                })
+            })
+        }
+    },
+    beforeMount() {
+        this.loadPage()
+    }
+  
+}
+</script>
+
+<style>
+.items {
+  cursor: pointer;
+}
+</style>

@@ -71,6 +71,7 @@ export default {
                   .doc(this.slug)
                   .set({
                     username: this.username,
+                    email: this.email,
                     user_id: cred.user.uid
                   });
               }).then(cred => {
