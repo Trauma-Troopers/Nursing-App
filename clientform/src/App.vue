@@ -11,6 +11,7 @@
 // Components:
 import Navbar from "@/components/layout/Navbar";
 import CheckList from "@/components/layout/CheckList";
+import ReadMe from "@/components/layout/ReadMe";
 
 
 export default {

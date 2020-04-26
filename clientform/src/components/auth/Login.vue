@@ -1,8 +1,8 @@
 <template>
   <div class="login container">
     <form @submit.prevent="login" class="card-panel">
-      <h2 class="center deep-purple-text">Welcome Student</h2>
-      <h3 class="center deep-purple-text">Login</h3>
+      <h2 class="center deep-black-text">Welcome Student</h2>
+      <h3 class="center deep-black-text">Login</h3>
       <div class="field">
         <label for="email">Email:</label>
         <input type="email" name="email" v-model="email" />
@@ -12,7 +12,7 @@
         <input type="password" v-mode="password" />
       </div>
       <div class="field center">
-        <button class="btn deep-purple darken-4">Login</button>
+        <button class="btn" style = "background-color:#990000">Login</button>
       </div>
     </form>
   </div>
