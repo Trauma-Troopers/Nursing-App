@@ -20,7 +20,6 @@
             LEVEL 4: Have NEVER Performed in Clinical or Simulation (Don’t count S & T)<br>
         </p>
         <div class="field center padding-top">
-            <button class="btn" style = "background-color:#990000">Go Back</button>
        </div>
        </form>
   </div>

@@ -101,7 +101,10 @@ export default {
     },
     methods: {
         loadPage: function () {
-          console.log(this.user)
+          if(firebase.auth().currentUser == null){
+         this.$router.push({ name: 'Login' })
+     }else{
+       
           var authMail = firebase.auth().currentUser.email
             db.collection("users").where("email", "==", authMail).get()
           .then((userSnap) => {
@@ -115,7 +118,7 @@ export default {
                         this.filterChecks("General")
           })
           
-            
+     }
         },
         filterChecks: function (id) {
             this.checks = []
