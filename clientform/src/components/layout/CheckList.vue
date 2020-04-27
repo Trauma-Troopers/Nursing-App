@@ -101,11 +101,12 @@ export default {
     },
     methods: {
         loadPage: function () {
+          console.log(this.user)
           var authMail = firebase.auth().currentUser.email
             db.collection("users").where("email", "==", authMail).get()
           .then((userSnap) => {
             this.user = userSnap.docs[0].ref
-
+            
             this.user.collection("checklist").get().then((querySnapshot) => {
                             querySnapshot.forEach((doc) => {
                                 this.tabs.push(doc)
