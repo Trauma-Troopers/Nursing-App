@@ -95,17 +95,18 @@ export default {
             checked1: [],
             checked2: [],
             checked3: [],
-            checked4: []
+            checked4: [],
+            user: null
         }
     },
     methods: {
         loadPage: function () {
           var authMail = firebase.auth().currentUser.email
-          var user = db.collection("users").where("email", "==", authMail).get()
+            db.collection("users").where("email", "==", authMail).get()
           .then((userSnap) => {
-            var userDoc = userSnap.docs[0].ref
+            this.user = userSnap.docs[0].ref
 
-            userDoc.collection("checklist").get().then((querySnapshot) => {
+            this.user.collection("checklist").get().then((querySnapshot) => {
                             querySnapshot.forEach((doc) => {
                                 this.tabs.push(doc)
                             });
@@ -117,7 +118,7 @@ export default {
         },
         filterChecks: function (id) {
             this.checks = []
-            var checkitems = db.collection("checklist").doc(id).collection("checkitems")
+            var checkitems = this.user.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.checks.push(doc)
