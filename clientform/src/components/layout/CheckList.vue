@@ -1,8 +1,6 @@
 <template>
   <div>
     <hr>
-    <p style="font-size:30px; background-color:#D4D4D4"><center>IU Southeast School of Nursing Skills Checklist</center></p>
-    <hr>
     <table class="table">
         <tr>
           <td class="white-text items" style="background-color:#990000" v-for="item in tabs" @click="filterChecks(item.id)">
