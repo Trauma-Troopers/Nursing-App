@@ -51,25 +51,29 @@
           <td colspan="3">{{check.get("name")}}</td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" class="chkbox" @click="updateCheck()" checked='true'/>
+              <input v-if="check.get('level1')" type="checkbox" class="chkbox" @click="updateCheck(check, 1)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 1)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox"  class="chkbox" @click="updateCheck()"/>
+              <input v-if="check.get('level2')" type="checkbox" class="chkbox" @click="updateCheck(check, 2)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 2)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" class="chkbox" @click="updateCheck()"/>
+              <input v-if="check.get('level3')" type="checkbox" class="chkbox" @click="updateCheck(check, 3)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 3)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" class="chkbox" @click="updateCheck()"/>
+              <input v-if="check.get('level4')" type="checkbox" class="chkbox" @click="updateCheck(check, 4)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 4)" />
               <span></span>
             </center></label>
           </td>
@@ -125,8 +129,25 @@ export default {
                 })
             })
         },
-        updateCheck: function (){
-
+        updateCheck: function (checkItem, level){
+          
+          switch(level){
+            case 1:
+              var valueChanged = checkItem.get("level1")
+              checkItem.ref.update({level1: !valueChanged})
+              break
+              case 2:
+var valueChanged = checkItem.get("level2")
+              checkItem.ref.update({level2: !valueChanged})
+                break
+                case 3:
+var valueChanged = checkItem.get("level3")
+              checkItem.ref.update({level3: !valueChanged})
+                  break
+                  default:
+var valueChanged = checkItem.get("level4")
+              checkItem.ref.update({level4: !valueChanged})
+          }
     }
     },
     beforeMount() {
