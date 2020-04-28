@@ -3,7 +3,7 @@
     <hr>
     <table class="table">
         <tr>
-          <td class="white-text items" style="background-color:#990000" v-for="item in tabs" @click="filterChecks(item.id)">
+          <td class="white-text items" v-bind:style="{ backgroundColor: '#' + backgroundColor}" v-for="item in tabs" :key="item.id" @click="filterChecks(item.id)">
             <div class ="verticalLine">
              <th>{{item.id}}</th>
             </div>
@@ -47,29 +47,29 @@
             </p>
           </td>
         </tr>
-        <tr v-for="check in checks">
+        <tr v-for="check in checks" :key="check.id">
           <td colspan="3">{{check.get("name")}}</td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" v-model="checked1" class="chkbox" />
+              <input type="checkbox" class="chkbox" @click="updateCheck()" checked='true'/>
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" v-model="checked2" class="chkbox" />
+              <input type="checkbox"  class="chkbox" @click="updateCheck()"/>
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" v-model="checked3" class="chkbox" />
+              <input type="checkbox" class="chkbox" @click="updateCheck()"/>
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input type="checkbox" v-model="checked4" class="chkbox" />
+              <input type="checkbox" class="chkbox" @click="updateCheck()"/>
               <span></span>
             </center></label>
           </td>
@@ -88,12 +88,9 @@ export default {
   name: 'CheckList',
     data(){
         return {
+          backgroundColor: 990000,
             tabs: [],
             checks: [],
-            checked1: [],
-            checked2: [],
-            checked3: [],
-            checked4: [],
             user: null
         }
     },
@@ -119,18 +116,18 @@ export default {
      }
         },
         filterChecks: function (id) {
+          //this.backgroundColor = 800000 // attempt to dynamically change the tab color
             this.checks = []
             var checkitems = this.user.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.checks.push(doc)
-                    this.checked1.push(doc.get("level1"))
-                    this.checked2.push(doc.get("level2"))
-                    this.checked3.push(doc.get("level3"))
-                    this.checked4.push(doc.get("level4"))
                 })
             })
-        }
+        },
+        updateCheck: function (){
+
+    }
     },
     beforeMount() {
         this.loadPage()
