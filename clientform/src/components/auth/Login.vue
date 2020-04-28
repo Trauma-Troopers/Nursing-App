@@ -64,11 +64,11 @@ export default {
                 this.$router.push({name: 'Admin'})
               }else this.$router.push({name: 'CheckList'});
             })
-            .catch(function(error) {
+            .catch(error => {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
-              this.feedback = errorMessage;
+              this.feedback = "Incorrect password";
               // ...
             });
           } else {
