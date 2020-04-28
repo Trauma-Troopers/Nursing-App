@@ -51,29 +51,29 @@
           <td colspan="3">{{check.get("name")}}</td>
           <td colspan="3">
             <label><center>
-              <input v-if="check.get('level1')" type="checkbox" class="chkbox" @click="updateCheck(check, 1)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 1)" />
+              <input v-if="check.get('level1')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input v-if="check.get('level2')" type="checkbox" class="chkbox" @click="updateCheck(check, 2)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 2)" />
+              <input v-if="check.get('level2')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input v-if="check.get('level3')" type="checkbox" class="chkbox" @click="updateCheck(check, 3)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 3)" />
+              <input v-if="check.get('level3')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3">
             <label><center>
-              <input v-if="check.get('level4')" type="checkbox" class="chkbox" @click="updateCheck(check, 4)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check, 4)" />
+              <input v-if="check.get('level4')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" />
               <span></span>
             </center></label>
           </td>
@@ -129,8 +129,11 @@ export default {
                 })
             })
         },
-        updateCheck: function (checkItem, level){
-          
+        updateCheck: function (checkPath, level){
+         var check = db.doc(checkPath)
+         check.get().then(doc => {
+           var checkItem = doc
+           
           switch(level){
             case 1:
               var valueChanged = checkItem.get("level1")
@@ -148,6 +151,10 @@ var valueChanged = checkItem.get("level3")
 var valueChanged = checkItem.get("level4")
               checkItem.ref.update({level4: !valueChanged})
           }
+
+         })
+          
+          
     }
     },
     beforeMount() {
