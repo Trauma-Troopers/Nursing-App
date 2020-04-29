@@ -2,17 +2,17 @@
   <div class="signup container">
     <form @submit.prevent="signup" class="card-panel">
       <h2 class="center deep-black-text">Signup</h2>
-
       <div class="field">
-        <label for="username">Username:</label>
+        <label for="username" class="black-text">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
-        <label for="password">Password:</label>
+        <p class="center outset alert-formatting">IUS password or email are NOT required here.<br> Please write down your password.</p>
+        <label for="password" class="black-text"><br>Password:</label>
         <input type="password" name="password" v-model="password" />
       </div>
       <div class="field">
-        <label for="email">Email:</label>
+        <label for="email" class="black-text">Email:</label>
         <input type="text" name="email" v-model="email" />
       </div>
       <!-- if the feedback exisists display the message  -->
@@ -152,4 +152,13 @@ function createUserTabs(user, checkTab){
 .signup .field {
   margin-bottom: 16px;
 }
+
+.alert-formatting {
+  font-size: 14px;
+  color: #990000;
+  background-color:#D4D4D4; 
+  font-weight: 700;
+}
+
+p.outset {border-style: outset;}
 </style>

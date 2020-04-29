@@ -4,11 +4,11 @@
       <h2 class="center deep-black-text">Welcome Student</h2>
       <h3 class="center deep-black-text">Login</h3>
       <div class="field">
-        <label for="username">Username:</label>
+        <label for="username" class="black-text">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
-        <label for="password">Password:</label>
+        <label for="password" class="black-text">Password:</label>
         <input type="password" name="password" v-model="password" />
       </div>
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
