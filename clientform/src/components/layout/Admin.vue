@@ -150,6 +150,9 @@ export default {
         this.id = document.getElementById("highlight").style.backgroundColor = "#D4D4D4";
         this.id = document.getElementById("highlight").style.color = "#990000";
       },*/
+
+
+      // ^^^^^^ cant do DOM manipulations with vue,
       filterChecks: function (id) {
         //this.backgroundColor = 800000 // attempt to dynamically change the tab color
           this.checks = []
@@ -186,14 +189,14 @@ export default {
       },
       //Todo: why isn't redirect to login working on page load?
       loadPage: function () {
-        if(firebase.auth().currentUser != 'admin'){
+        if(firebase.auth().currentUser == null){
           this.$router.push({ name: 'Login' })
         }
-      },
-      beforeMount() {
+      }
+    },
+    beforeMount() {
         this.loadPage()
       }
-    }
   }
 </script>
 
