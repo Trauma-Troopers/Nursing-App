@@ -158,8 +158,6 @@ var valueChanged = checkItem.get("level4")
           }
 
          })
-          
-          
     }
     },
     beforeMount() {
