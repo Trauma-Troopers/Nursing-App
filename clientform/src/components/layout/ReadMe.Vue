@@ -20,7 +20,11 @@
                 LEVEL 3: Performed in Simulation (Junior or Senior Level, NOT S & T)<br>
                 LEVEL 4: Have NEVER Performed in Clinical or Simulation (Don’t count S & T)<br>
             </p>
-            </div>
+        </div>
+        <div class="field center">
+            <p>View the original IUS Skills Checklist Document that this site was based on.</p>
+            <a class="btn" style = "background-color:#990000" @click="$router.push('/checkdoc')">View Document</a>
+       </div>
         <p class="padding-top level-section" style="font-size:16px"> 
 
         Note: 

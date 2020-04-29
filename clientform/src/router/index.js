@@ -5,6 +5,7 @@ import Login from '@/components/auth/Login'
 import CheckList from '@/components/layout/CheckList'
 import Admin from '@/components/layout/Admin'
 import ReadMe from '@/components/layout/ReadMe'
+import CheckDoc from '@/components/layout/CheckDoc'
 
 Vue.use(Router)
 
@@ -32,6 +33,10 @@ const router = new Router({
       path: '/readme',
       name: 'ReadMe',
       component: ReadMe
+    }, {
+      path: '/checkdoc',
+      name: 'CheckDoc',
+      component: CheckDoc
     }
   ]
 })
