@@ -4,16 +4,16 @@
       <h2 class="center deep-black-text">Signup</h2>
 
       <div class="field">
-        <label for="email">Email:</label>
-        <input type="text" name="email" v-model="email" />
+        <label for="username">Username:</label>
+        <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
         <label for="password">Password:</label>
         <input type="password" name="password" v-model="password" />
       </div>
       <div class="field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" v-model="username" />
+        <label for="email">Email:</label>
+        <input type="text" name="email" v-model="email" />
       </div>
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>

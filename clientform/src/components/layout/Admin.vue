@@ -1,17 +1,99 @@
 <template>
-  <div class="login container">
-    <form @submit.prevent="login" class="card-panel">
-      <h2 class="center deep-black-text">Welcome Administrator</h2>
-      <h2 class="center deep-black-text">Enter Student's IUS Username</h2>
-      <div class="field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" v-model="username" />
-      </div>
-      <p class="red-text center" v-if="feedback">{{ feedback }}</p>
-      <div class="field center">
-        <button class="btn" style = "background-color:#990000">Login</button>
-      </div>
-    </form>
+  <div>
+    <div class="login container">
+      <form @submit.prevent="populate">
+        <div class="field">
+        <h5 class="center deep-black-text">Enter Student's IUS Username</h5>
+        
+          <label for="username">Username:</label>
+          <input type="text" name="username" v-model="username" />
+        </div>
+        <p class="red-text center" v-if="feedback">{{ feedback }}</p>
+        <div class="field center">
+          <button class="btn" style = "background-color:#990000">Populate</button>
+        </div>
+      </form>
+  </div>
+    <hr>
+    <table class="table">
+        <tr>
+          <td class="white-text items" v-bind:style="{ backgroundColor: '#' + backgroundColor}" v-for="item in tabs" :key="item.id" @click="filterChecks(item.id)">
+            <div id="highlight" @click="highlightBackground()" class ="verticalLine">
+             <th>{{item.id}}</th>
+            </div>
+          </td>
+        </tr>
+        <!-- tabs -->
+        <tr class="levelsRow">
+          <td colspan="3">
+            Identified Skill:
+            </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 1:<br>
+                Performed Independently
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 2:<br>
+                Performed with Assistance
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 3:<br>
+                Performed in Simulation
+              </center>
+            </p>
+          </td>
+          <td colspan="3">
+            <p class="levelsVerticalLine">
+              <center>
+                Level 4:<br>
+                NEVER Performed in Clinical or Sim
+              </center>
+            </p>
+          </td>
+        </tr>
+        <tr v-for="check in checks" :key="check.id">
+          <td colspan="3" class="tasksVerticalLine">{{check.get("name")}}</td>
+          <td colspan="3" class="tasksVerticalLine">
+            <label><center>
+              <input v-if="check.get('level1')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3" class="tasksVerticalLine">
+            <label><center>
+              <input v-if="check.get('level2')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3" class="tasksVerticalLine">
+            <label><center>
+              <input v-if="check.get('level3')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" />
+              <span></span>
+            </center></label>
+          </td>
+          <td colspan="3" class="tasksVerticalLine">
+            <label><center>
+              <input v-if="check.get('level4')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" checked/>
+              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" />
+              <span></span>
+            </center></label>
+          </td>
+        </tr>
+      <!-- checks row -->
+    </table>
   </div>
 </template>
 
@@ -25,19 +107,22 @@ import firebase from "firebase";
 
 export default {
   name: "Admin",
-  data() {
+
+  data(){
     return {
+      backgroundColor: 990000,
+      tabs: [],
+      checks: [],
+      user: null,
       username: null,
       feedback: null,
       slug: null,
       userdoc: null
-    };
+    }
   },
   methods: {
-    login() {
-      if (this.username == 'daleruss') {
-        
-         // slugify always takes two params
+      populate() {         
+        // slugify always takes two params
         this.slug = slugify(this.username, {
           replacement: "-",
           //   regex globals
@@ -46,27 +131,116 @@ export default {
         });
         // let ref is going to equal an object from the users collection
         // .doc will reference the slug passed as the id
-        let ref = db.collection("users").doc(this.slug);
+        let ref = db.collection("users").doc(this.slug)
         // Check to determine if the reference exists
-        ref.get().then(doc => {
-          if (doc.exists) {
-
-            //TODO: Auth here.  Not sure if possible without password.
-            //Possible to pull a view of users checklist without auth?
-            this.$router.push({name: 'CheckList'}); //create a new AdminChecklist vue file that is readonly (cannot uncheck/check).
-          } else {
-            this.feedback = "User does not exist, please try again."
-          }
+        
+        db.collection("users").where("username", "==", this.slug).get()
+        .then((userSnap) => {
+          this.user = userSnap.docs[0].ref
+          this.user.collection("checklist").get().then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                  this.tabs.push(doc)
+              });
+          });
+            this.filterChecks("General")
         })
-      } else {
-        this.feedback = "Something went wrong, please try again.";
+      },
+      // TODO - Dynamic Tab Coloring: This currently highlights the category "Cardiac" no matter which category is clicked. 
+      /*highlightBackground: function(id) {
+        this.id = document.getElementById("highlight").style.backgroundColor = "#D4D4D4";
+        this.id = document.getElementById("highlight").style.color = "#990000";
+      },*/
+      filterChecks: function (id) {
+        //this.backgroundColor = 800000 // attempt to dynamically change the tab color
+          this.checks = []
+          var checkitems = this.user.collection("checklist").doc(id).collection("checkitems")
+          checkitems.get().then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                  this.checks.push(doc)
+              })
+          })
+      },
+      updateCheck: function (checkPath, level){
+        var check = db.doc(checkPath)
+        check.get().then(doc => {
+          var checkItem = doc
+          
+          switch(level){
+            case 1:
+              var valueChanged = checkItem.get("level1")
+              checkItem.ref.update({level1: !valueChanged})
+              break
+              case 2:
+              var valueChanged = checkItem.get("level2")
+              checkItem.ref.update({level2: !valueChanged})
+                break
+                case 3:
+              var valueChanged = checkItem.get("level3")
+              checkItem.ref.update({level3: !valueChanged})
+                  break
+                  default:
+              var valueChanged = checkItem.get("level4")
+              checkItem.ref.update({level4: !valueChanged})
+          }
+        }) 
+      },
+      //Todo: why isn't redirect to login working on page load?
+      loadPage: function () {
+        if(firebase.auth().currentUser != 'admin'){
+          this.$router.push({ name: 'Login' })
+        }
+      },
+      beforeMount() {
+        this.loadPage()
       }
     }
   }
-};
 </script>
 
 <style>
+
+  hr{
+    padding-top: 5px;
+    margin: 0px;
+    background-color:#DEDEDE;
+  }
+
+  p{
+    padding: 0px;
+    margin: 0px;    
+  }
+
+  .items {
+    cursor: pointer;
+  }
+  
+  .chkbox {
+    align-content: center;
+  }
+
+  .levelsRow{
+    background-color:#D4D4D4;
+  }
+
+  .tasksVerticalLine {
+    border-left: solid rgba(243, 238, 238, 0.829);
+  }
+
+  .levelsVerticalLine {
+    border-left: solid rgba(70, 66, 66, 0.747);
+    padding-top: 0px;
+  }
+
+  .verticalLine {
+    border-left: solid rgba(114, 7, 3, 0.788);
+    height: 100px;
+  }
+
+  ul.categoryBullet {
+    border-left: solid black;
+    list-style-type: circle;
+  }
+
 .login {
   max-width: 400px;
   margin-top: 60px;
