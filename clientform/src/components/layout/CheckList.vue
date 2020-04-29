@@ -3,9 +3,10 @@
     <hr>
     <table class="table">
         <tr>
-          <td class="white-text items" v-bind:style="{ backgroundColor: '#' + backgroundColor}" v-for="item in tabs" :key="item.id" @click="filterChecks(item.id)">
-            <div id="highlight" @click="highlightBackground()" class ="verticalLine">
-             <th>{{item.id}}</th>
+          <td class="white-text items" v-bind:style="{ backgroundColor:'#990000'}" v-for="item in tabs" :key="item.id" @click="filterChecks(item.id)">
+            <div class ="verticalLine">
+             <th v-if="selected==item.id" style='color: black'>{{item.id}}</th>
+             <th v-else>{{item.id}}</th>
             </div>
           </td>
         </tr>
@@ -92,7 +93,7 @@ export default {
   name: 'CheckList',
     data(){
         return {
-          backgroundColor: 990000,
+          selected: "General",
             tabs: [],
             checks: [],
             user: null
@@ -124,8 +125,11 @@ export default {
           this.id = document.getElementById("highlight").style.backgroundColor = "#D4D4D4";
           this.id = document.getElementById("highlight").style.color = "#990000";
         },*/
+
+        //^^^^^^ vue does not support DOM manipulation
         filterChecks: function (id) {
           //this.backgroundColor = 800000 // attempt to dynamically change the tab color
+          this.selected = id
             this.checks = []
             var checkitems = this.user.collection("checklist").doc(id).collection("checkitems")
             checkitems.get().then((querySnapshot) => {
