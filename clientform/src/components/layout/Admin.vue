@@ -66,29 +66,29 @@
           <td colspan="3" class="tasksVerticalLine">{{check.get("name")}}</td>
           <td colspan="3" class="tasksVerticalLine">
             <label><center>
-              <input v-if="check.get('level1')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 1)" />
+              <input v-if="check.get('level1')" type="checkbox" disabled  class="chkbox" checked/>
+              <input v-else type="checkbox" disabled class="chkbox"/>
               <span></span>
             </center></label>
           </td>
           <td colspan="3" class="tasksVerticalLine">
             <label><center>
-              <input v-if="check.get('level2')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 2)" />
+              <input v-if="check.get('level2')" type="checkbox" disabled class="chkbox" checked/>
+              <input v-else type="checkbox" disabled class="chkbox"/>
               <span></span>
             </center></label>
           </td>
           <td colspan="3" class="tasksVerticalLine">
             <label><center>
-              <input v-if="check.get('level3')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 3)" />
+              <input v-if="check.get('level3')" type="checkbox" disabled class="chkbox" checked/>
+              <input v-else type="checkbox" disabled  class="chkbox" />
               <span></span>
             </center></label>
           </td>
           <td colspan="3" class="tasksVerticalLine">
             <label><center>
-              <input v-if="check.get('level4')" type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" checked/>
-              <input v-else type="checkbox" class="chkbox" @click="updateCheck(check.ref.path, 4)" />
+              <input v-if="check.get('level4')" type="checkbox"  disabled class="chkbox" checked/>
+              <input v-else type="checkbox" disabled class="chkbox " />
               <span></span>
             </center></label>
           </td>
@@ -146,14 +146,6 @@ export default {
             this.filterChecks("General")
         })
       },
-      // TODO - Dynamic Tab Coloring: This currently highlights the category "Cardiac" no matter which category is clicked. 
-      /*highlightBackground: function(id) {
-        this.id = document.getElementById("highlight").style.backgroundColor = "#D4D4D4";
-        this.id = document.getElementById("highlight").style.color = "#990000";
-      },*/
-
-
-      // ^^^^^^ cant do DOM manipulations with vue,
       filterChecks: function (id) {
         //this.backgroundColor = 800000 // attempt to dynamically change the tab color
         this.selected = id

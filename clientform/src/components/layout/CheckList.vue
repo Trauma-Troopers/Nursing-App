@@ -120,13 +120,6 @@ export default {
           
      }
         },
-        // TODO - Dynamic Tab Coloring: This currently highlights the category "Cardiac" no matter which category is clicked. 
-        /*highlightBackground: function(id) {
-          this.id = document.getElementById("highlight").style.backgroundColor = "#D4D4D4";
-          this.id = document.getElementById("highlight").style.color = "#990000";
-        },*/
-
-        //^^^^^^ vue does not support DOM manipulation
         filterChecks: function (id) {
           //this.backgroundColor = 800000 // attempt to dynamically change the tab color
           this.selected = id
