@@ -1,85 +1,82 @@
 <template>
-  <div>
-    <table class="table">
-      <tr style="background-color: #EEEDEB">
-        <td v-for="item in tabs" @click="filterChecks(item.id)">{{item.id}}</td>
-      </tr>
-      <!-- tabs -->
-      <tr>
-        <td colspan="3">ADMIN</td>
-        <td colspan="3">Level 1</td>
-        <td colspan="3">Level 2</td>
-        <td colspan="3">Level 3</td>
-        <td colspan="3">Level 4</td>
-      </tr>
-      <tr v-for="check in checks">
-        <td colspan="3">{{check.get("name")}}</td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked1" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked2" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked3" />
-        </td>
-        <td colspan="3">
-          <input type="checkbox" v-model="checked4" />
-        </td>
-      </tr>
-      <!-- checks row -->
-    </table>
+  <div class="login container">
+    <form @submit.prevent="login" class="card-panel">
+      <h2 class="center deep-black-text">Welcome Administrator</h2>
+      <h2 class="center deep-black-text">Enter Student's IUS Username</h2>
+      <div class="field">
+        <label for="username">Username:</label>
+        <input type="text" name="username" v-model="username" />
+      </div>
+      <p class="red-text center" v-if="feedback">{{ feedback }}</p>
+      <div class="field center">
+        <button class="btn" style = "background-color:#990000">Login</button>
+      </div>
+    </form>
   </div>
 </template>
 
-
-
 <script>
-import firebase from "@/firebase/init";
+
+// Import Slugify into the project
+import slugify from "slugify";
+// imports firestore db
+import db from "@/firebase/init";
+import firebase from "firebase";
+
 export default {
-  name: 'CheckList',
-    data(){
-        return {
-            tabs: [],
-            checks: [],
-            checked1: [],
-            checked2: [],
-            checked3: [],
-            checked4: []
+  name: "Admin",
+  data() {
+    return {
+      username: null,
+      feedback: null,
+      slug: null,
+      userdoc: null
+    };
+  },
+  methods: {
+    login() {
+      if (this.username == 'daleruss') {
+        
+         // slugify always takes two params
+        this.slug = slugify(this.username, {
+          replacement: "-",
+          //   regex globals
+          remove: /[$*_+~.()'"!\-:@]/g,
+          lower: true
+        });
+        // let ref is going to equal an object from the users collection
+        // .doc will reference the slug passed as the id
+        let ref = db.collection("users").doc(this.slug);
+        // Check to determine if the reference exists
+        ref.get().then(doc => {
+          if (doc.exists) {
+
+            //TODO: Auth here.  Not sure if possible without password.
+            //Possible to pull a view of users checklist without auth?
+            this.$router.push({name: 'CheckList'}); //create a new AdminChecklist vue file that is readonly (cannot uncheck/check).
+          } else {
+            this.feedback = "User does not exist, please try again."
+          }
+        })
+      } else {
+        this.feedback = "Something went wrong, please try again.";
       }
-       },
-    methods: {
-        loadPage: function () {
-         // console.log(this.user);
-            firebase.collection("checklist").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.tabs.push(doc)
-                });
-            });
-            this.filterChecks("General")
-        },
-        filterChecks: function (id) {
-            var checkitems = firebase.collection("checklist").doc(id).collection("checkitems")
-            checkitems.get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.checks.push(doc)
-                    this.checked1.push(doc.get("level1"))
-                    this.checked2.push(doc.get("level2"))
-                    this.checked3.push(doc.get("level3"))
-                    this.checked4.push(doc.get("level4"))
-                })
-            })
-        }
-    },
-    beforeMount() {
-        this.loadPage()
     }
-  
-}
+  }
+};
 </script>
 
 <style>
-.items {
-  cursor: pointer;
+.login {
+  max-width: 400px;
+  margin-top: 60px;
+}
+
+.login h2 {
+  font-size: 2.4em;
+}
+
+.login .field {
+  margin-bottom: 16px;
 }
 </style>

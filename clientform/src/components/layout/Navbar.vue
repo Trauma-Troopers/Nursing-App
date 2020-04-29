@@ -2,16 +2,16 @@
   <div class="navbar">
     <nav style="background-color:#990000">
       <div class="container">
-          <a class="brand-logo left">IUS Nursing Form</a>
+          <a class="brand-logo left">IUS Nursing</a>
         <ul class="right">
           <li>
-            <router-link to="/signup">Sign Up</router-link>
+            <router-link to="/readme">Usage</router-link>
+          </li>
+          <li>
+            <router-link to="/signup">Signup</router-link>
           </li>
           <li>
             <router-link to="/">Login</router-link>
-          </li>
-          <li>
-            <router-link to="/readme">How to Use</router-link>
           </li>
         </ul>
       </div>
@@ -27,5 +27,4 @@ export default {
 </script>
 
 <style>
-
 </style>
