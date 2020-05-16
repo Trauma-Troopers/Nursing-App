@@ -1,6 +1,9 @@
 <template>
   <div class="signup container">
     <form @submit.prevent="signup" class="card-panel">
+      <div>
+        <p class="center outset alert-formatting">Please go <a href @click="$router.push('/readme')">HERE</a> before creating your account.</p>
+      </div>
       <h2 class="center deep-black-text">Signup</h2>
       <div class="field">
         <label for="username" class="black-text">IUS Username:</label>

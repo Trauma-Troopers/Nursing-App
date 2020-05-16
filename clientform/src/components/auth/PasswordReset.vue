@@ -1,21 +1,14 @@
 <template>
   <div class="login container">
-    <form @submit.prevent="login" class="card-panel">
-      <h2 class="center deep-black-text">Login</h2>
+    <form @submit.prevent="reset" class="card-panel">
+      <h2 class="center deep-black-text">Reset Password</h2>
       <div class="field">
         <label for="username" class="black-text">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
-      <div class="field">
-        <label for="password" class="black-text">Password:</label>
-        <input type="password" name="password" v-model="password" />
-      </div>
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
       <div class="field center">
-        <button class="btn" style = "background-color:#990000">Login</button>
-      </div>
-      <div>
-        <p class="center outset alert-formatting">Forgot your password? <a href @click="$router.push('/passwordreset')">Click here.</a></p>
+        <button class="btn" style = "background-color:#990000">Reset</button>
       </div>
     </form>
   </div>
@@ -31,7 +24,7 @@ import firebase from "firebase";
 
 
 export default {
-  name: "Login",
+  name: "PasswordReset",
   data() {
     return {
       username: null,
@@ -43,8 +36,8 @@ export default {
     };
   },
   methods: {
-    login() {
-      if (this.username && this.password) {
+    reset() {
+      if (this.username) {
         
          // slugify always takes two params
         this.slug = slugify(this.username, {
@@ -59,25 +52,24 @@ export default {
         // Check to determine if the reference exists
         ref.get().then(doc => {
           if (doc.exists) {
-            firebase.auth().signInWithEmailAndPassword(doc.get("email"), this.password)
+            firebase.auth().sendPasswordResetEmail(doc.get("email"))
+            
             .then(() => {
-              if(this.slug == "admin"){
-                this.$router.push({name: 'Admin'})
-              }else this.$router.push({name: 'CheckList'});
+                this.$router.push({name: 'Confirmation'})
             })
             .catch(error => {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
-              this.feedback = "Incorrect password";
+              this.feedback = "Something went wrong, please try again.";
               // ...
             });
           } else {
-            this.feedback = "User does not exist, please sign up"
+            this.feedback = "User does not exist, please re-enter your IUS Username or Signup."
           }
         })
       } else {
-        this.feedback = "You must enter all fields";
+        this.feedback = "Please enter your IUS Username.";
       }
     }
   }

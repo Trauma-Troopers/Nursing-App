@@ -3,7 +3,7 @@
     <nav style="background-color:#990000">
       <div class="container">
           <a class="brand-logo left">IUS Nursing</a>
-        <ul class="right">
+        <ul href class="right">
           <li>
             <router-link to="/readme">Usage</router-link>
           </li>
