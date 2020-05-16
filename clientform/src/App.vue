@@ -14,6 +14,9 @@ import CheckList from "@/components/layout/CheckList";
 import Admin from "@/components/layout/Admin";
 import ReadMe from "@/components/layout/ReadMe";
 import CheckDoc from "@/components/layout/CheckDoc";
+import PassordReset from "@/components/auth/PasswordReset";
+import Confirmation from "@/components/auth/Confirmation";
+
 
 export default {
   name: "App",

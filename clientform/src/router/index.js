@@ -6,6 +6,10 @@ import CheckList from '@/components/layout/CheckList'
 import Admin from '@/components/layout/Admin'
 import ReadMe from '@/components/layout/ReadMe'
 import CheckDoc from '@/components/layout/CheckDoc'
+import PasswordReset from "@/components/auth/PasswordReset"
+import Confirmation from "@/components/auth/Confirmation"
+
+
 
 Vue.use(Router)
 
@@ -37,6 +41,14 @@ const router = new Router({
       path: '/checkdoc',
       name: 'CheckDoc',
       component: CheckDoc
+    }, {
+      path: '/passwordreset',
+      name: 'PasswordReset',
+      component: PasswordReset
+    }, {
+      path: '/confirmation',
+      name: 'Confirmation',
+      component: Confirmation
     }
   ]
 })
