@@ -2,7 +2,14 @@
   <div class="signup container">
     <form @submit.prevent="signup" class="card-panel">
       <div>
-        <p class="center outset alert-formatting">Please go <a href @click="$router.push('/readme')">HERE</a> before creating your account.</p>
+        <p class="center outset alert-formatting">
+          Please visit 
+            <a href @click="$router.push('/readme')">
+              THIS PAGE
+            </a> 
+          to learn how to use <br> the website
+          before creating your account.
+        </p>
       </div>
       <h2 class="center deep-black-text">Signup</h2>
       <div class="field">
@@ -10,13 +17,13 @@
         <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
-        <p class="center outset alert-formatting">IUS password or email are NOT required here.<br> Please write down your password.</p>
-        <label for="password" class="black-text"><br>Password:</label>
-        <input type="password" name="password" v-model="password" />
-      </div>
-      <div class="field">
         <label for="email" class="black-text">Email:</label>
         <input type="text" name="email" v-model="email" />
+        
+      </div>
+      <div class="field">
+        <label for="password" class="black-text"><br>Password:</label>
+        <input type="password" name="password" v-model="password" />
       </div>
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
@@ -63,7 +70,7 @@ export default {
         // Check to determine if the reference exists
         ref.get().then(doc => {
           if (doc.exists) {
-            this.feedback = "That username already exists";
+            this.feedback = "That user exists, please retry or Login.";
           } else {
             firebase
               .auth()

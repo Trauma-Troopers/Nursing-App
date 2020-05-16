@@ -69,15 +69,15 @@ export default {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
-              this.feedback = "Incorrect password";
+              this.feedback = "Incorrect password.";
               // ...
             });
           } else {
-            this.feedback = "User does not exist, please sign up"
+            this.feedback = "User does not exist, please Signup."
           }
         })
       } else {
-        this.feedback = "You must enter all fields";
+        this.feedback = "You must enter all fields.";
       }
     }
   }
