@@ -3,11 +3,11 @@
     <form @submit.prevent="login" class="card-panel">
       <h2 class="center deep-black-text">Login</h2>
       <div class="field">
-        <label for="username" class="black-text">IUS Username:</label>
+        <label for="username" class="black-text credentials">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
-        <label for="password" class="black-text">Password:</label>
+        <label for="password" class="black-text credentials">Password:</label>
         <input type="password" name="password" v-model="password" />
       </div>
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
@@ -96,5 +96,9 @@ export default {
 
 .login .field {
   margin-bottom: 16px;
+}
+
+.credentials {
+  font-size:16px;
 }
 </style>

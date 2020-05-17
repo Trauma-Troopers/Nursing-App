@@ -13,16 +13,16 @@
       </div>
       <h2 class="center deep-black-text">Signup</h2>
       <div class="field">
-        <label for="username" class="black-text">IUS Username:</label>
+        <label for="username" class="black-text credentials">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <div class="field">
-        <label for="email" class="black-text">Email:</label>
+        <label for="email" class="black-text credentials">Email:</label>
         <input type="text" name="email" v-model="email" />
         
       </div>
       <div class="field">
-        <label for="password" class="black-text"><br>Password:</label>
+        <label for="password" class="black-text credentials"><br>Password:</label>
         <input type="password" name="password" v-model="password" />
       </div>
       <!-- if the feedback exisists display the message  -->
@@ -170,5 +170,11 @@ function createUserTabs(user, checkTab){
   font-weight: 700;
 }
 
-p.outset {border-style: outset;}
+p.outset {
+  border-style: outset;
+}
+
+.credentials {
+  font-size:16px;
+}
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="login container">
+  <div class="reset container">
     <form @submit.prevent="reset" class="card-panel">
       <h2 class="center deep-black-text">Reset Password</h2>
       <div class="field">
-        <label for="username" class="black-text">IUS Username:</label>
+        <label for="username" class="black-text credentials">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
       </div>
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
@@ -77,16 +77,20 @@ export default {
 </script>
 
 <style>
-.login {
+.reset {
   max-width: 400px;
   margin-top: 60px;
 }
 
-.login h2 {
+.reset h2 {
   font-size: 2.4em;
 }
 
-.login .field {
+.reset .field {
   margin-bottom: 16px;
+}
+
+.credentials {
+  font-size:16px;
 }
 </style>
