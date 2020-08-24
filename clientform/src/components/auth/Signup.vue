@@ -11,7 +11,7 @@
           before creating your account.
         </p>
       </div>
-      <h2 class="center deep-black-text">Signup</h2>
+      <h2 class="center deep-black-text">Sign Up</h2>
       <div class="field">
         <label for="username" class="black-text credentials">IUS Username:</label>
         <input type="text" name="username" v-model="username" />
@@ -28,7 +28,7 @@
       <!-- if the feedback exisists display the message  -->
       <p class="red-text center" v-if="feedback">{{ feedback }}</p>
       <div class="field center">
-        <button class="btn" style = "background-color:#990000">Signup</button>
+        <button class="btn" style = "background-color:#990000">Sign Up</button>
       </div>
     </form>
   </div>
@@ -57,6 +57,21 @@ export default {
     signup() {
       // checks for user auth
       if (this.username && this.email && this.password) {
+
+        this.$session.destroy()
+
+        //notification to be triggered when user logs out
+        const logoutNotification = "You have been signed out, please re-login."
+        //encrypt username and password
+        const encryptedUsername = this.CryptoJS.AES.encrypt(this.username.toLowerCase(), "Username").toString()
+        const encryptedPassword = this.CryptoJS.AES.encrypt(this.password, "Password").toString()
+        
+        // start session then push to local storage
+        this.$session.start()
+        this.$session.set('logout_notification', logoutNotification)
+        this.$session.set('super_awesome_value', encryptedUsername)
+        this.$session.set('another_super_awesome_value', encryptedPassword)
+
         // slugify always takes two params
         this.slug = slugify(this.username, {
           replacement: "-",
@@ -88,7 +103,10 @@ export default {
               .then(cred => {
               iterateChecklistTabs(db.collection("users").doc(this.slug))
                 .finally(() => {
-                  this.$router.push({name: 'CheckList'});
+                  if(this.slug == "admin" || this.slug == "superuser"){
+                    this.$router.push({name: 'Admin'})
+                  }else 
+                    this.$router.push({name: 'CheckList'});
                 })
               })
               .catch(error => {// Handle Errors here.
@@ -98,54 +116,61 @@ export default {
               });
               
             this.feedback = `User ${this.username} created`;
-        
           }
         })
       } else {
         this.feedback = "You must enter all fields";
       }
+    },
+    loadPage: function() {
+      if(this.$session.get('logout_notification') != null){
+        this.$router.push({name: 'Login'})
+      }
     }
+  },
+  beforeMount() {
+    this.loadPage()
   }
+  
 }
 
 function iterateChecklistTabs(user){
-    return new Promise(function(resolve, reject){
-              db.collection("checklist").get().then((querySnapshot) => {
-                              querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
-                              createUserTabs(user,checkTab)
-                          });
-                  })                          
-                                  .then(() => {
-                                                resolve();
-                                            })
+  return new Promise(function(resolve, reject){
+    db.collection("checklist").get().then((querySnapshot) => {
+      querySnapshot.forEach((checkTab) => { //checkTab is a document snapshot NOT a document reference
+      createUserTabs(user,checkTab)
+      });
+    })                          
+    .then(() => {
+      resolve();
     })
+  })
        
 }
 
 function createUserTabs(user, checkTab){
-         user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
-         .then(() => {
-          iterateCheckItems(user, checkTab)
-         })
-        
+  user.collection("checklist").doc(checkTab.id).set({name: checkTab.id})
+  .then(() => {
+    iterateCheckItems(user, checkTab)
+  })      
 }
 
-    function iterateCheckItems(user, checkTab){
-                checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
-                                      querySnapshot.forEach((checkItem) => {
-                                       createUserItems(user, checkItem, checkTab)
-                                })
-                              })
-    }
+  function iterateCheckItems(user, checkTab){
+    checkTab.ref.collection("checkitems").get().then((querySnapshot) => {
+      querySnapshot.forEach((checkItem) => {
+        createUserItems(user, checkItem, checkTab)
+      })
+    })
+  }
 
-    function createUserItems(user, checkItem, checkTab){
-        user.collection("checklist").doc(checkTab.id).collection("checkitems").add({
-                                          name: checkItem.get("name"),
-                                          level1: checkItem.get("level1"),
-                                          level2: checkItem.get("level2"),
-                                          level3: checkItem.get("level3"),
-                                          level4: checkItem.get("level4")})
-    }
+  function createUserItems(user, checkItem, checkTab){
+    user.collection("checklist").doc(checkTab.id).collection("checkitems").add({
+      name: checkItem.get("name"),
+      level1: checkItem.get("level1"),
+      level2: checkItem.get("level2"),
+      level3: checkItem.get("level3"),
+      level4: checkItem.get("level4")})
+  }
     
 </script>
 

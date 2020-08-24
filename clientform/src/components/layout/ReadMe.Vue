@@ -2,7 +2,7 @@
   <div class="readme container">
       <form  class="card-panel">
         <h3><center><strong>
-            WEBSITE USAGE
+            How to Use
         </strong></center></h3>
         <center><p class="outset category"> Signup and Login</p></center>
         <ol class="olli-font"> 
