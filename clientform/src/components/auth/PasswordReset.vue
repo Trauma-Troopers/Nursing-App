@@ -22,7 +22,6 @@ import slugify from "slugify";
 import db from "@/firebase/init";
 import firebase from "firebase";
 
-
 export default {
   name: "PasswordReset",
   data() {
@@ -53,7 +52,6 @@ export default {
         ref.get().then(doc => {
           if (doc.exists) {
             firebase.auth().sendPasswordResetEmail(doc.get("email"))
-            
             .then(() => {
                 this.$router.push({name: 'Confirmation'})
             })

@@ -1,5 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueSession from 'vue-session'
+import VueCryptojs from 'vue-cryptojs'
+import VueSimpleAlert from "vue-simple-alert";
+
+import Home from '@/components/layout/Home'
+import WelcomeRedirect from '@/components/layout/WelcomeRedirect'
 import Signup from '@/components/auth/Signup'
 import Login from '@/components/auth/Login'
 import CheckList from '@/components/layout/CheckList'
@@ -8,21 +14,30 @@ import ReadMe from '@/components/layout/ReadMe'
 import CheckDoc from '@/components/layout/CheckDoc'
 import PasswordReset from "@/components/auth/PasswordReset"
 import Confirmation from "@/components/auth/Confirmation"
-
-
-
+ 
+Vue.use(VueSimpleAlert);
+Vue.use(VueCryptojs)
+Vue.use(VueSession)
 Vue.use(Router)
 
-const router = new Router({
+export const router = new Router({
   // changes those slashed inside of the main URL
   mode: 'history',
   routes: [
     {
+      path: '/home',
+      name: 'Home',
+      component: Home,
+    },{
+      path: '/',
+      name: 'WelcomeRedirect',
+      component: WelcomeRedirect,
+    }, {
       path: '/signup',
       name: 'Signup',
-      component: Signup
+      component: Signup,
     }, {
-      path: '/',
+      path: '/login',
       name: 'Login',
       component: Login
     }, {
@@ -52,9 +67,9 @@ const router = new Router({
     }
   ]
 })
+
 // Creates Routeguard
 // fires a function before each route is loaded into the DOM
-
 router.beforeEach((to, from, next) => {
   // checks the routes for Metadata properites
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
